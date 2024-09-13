@@ -20,6 +20,7 @@ from fastapi_cloudauth.messages import (
     NOT_AUTHENTICATED,
     NOT_VERIFIED,
     SCOPE_NOT_MATCHED,
+    helper,
 )
 
 
@@ -51,6 +52,7 @@ class JWKS:
         url: str = "",
         fixed_keys: Optional[Dict[str, Key]] = None,
     ):
+        helper()
         """Handle the JSON Web Key Set (JWKS), query and refresh ...
         Args:
             url: Provider JWKS URL. See official doc for what you want to connect.
@@ -148,6 +150,7 @@ class JWKsVerifier(Verifier):
         """
         auto-error: if False, return payload as b'null' for invalid token.
         """
+        helper()
         self._jwks = jwks
         self._auto_error = auto_error
         self._extra_verifier = extra
@@ -304,6 +307,7 @@ class ScopedJWKsVerifier(JWKsVerifier):
         """
         auto-error: if False, return payload as b'null' for invalid token.
         """
+        helper()
         super().__init__(
             jwks, auto_error=auto_error, extra=extra, audience=audience, issuer=issuer
         )

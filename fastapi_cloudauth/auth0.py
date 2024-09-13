@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 from starlette import status
 
 from .base import ScopedAuth, UserInfoAuth
-from .messages import NOT_VERIFIED
+from .messages import NOT_VERIFIED, helper
 from .verification import JWKS as BaseJWKS
 from .verification import ExtraVerifier
 
@@ -39,6 +39,7 @@ class Auth0(ScopedAuth):
         scope_key: Optional[str] = "permissions",
         auto_error: bool = True,
     ):
+        helper()
         url = f"https://{domain}/.well-known/jwks.json"
         jwks = JWKS(url=url)
         if issuer is None:

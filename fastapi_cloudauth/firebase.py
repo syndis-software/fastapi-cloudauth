@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 from starlette import status
 
 from .base import UserInfoAuth
-from .messages import NOT_VERIFIED
+from .messages import NOT_VERIFIED, helper
 from .verification import JWKS as BaseJWKS
 from .verification import ExtraVerifier
 
@@ -49,6 +49,7 @@ class FirebaseCurrentUser(UserInfoAuth):
     user_info = FirebaseClaims
 
     def __init__(self, project_id: str, *args: Any, **kwargs: Any):
+        helper()
         url = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
         jwks = JWKS(url=url)
         super().__init__(
@@ -64,6 +65,7 @@ class FirebaseCurrentUser(UserInfoAuth):
 
 class FirebaseExtraVerifier(ExtraVerifier):
     def __init__(self, project_id: str):
+        helper()
         self._pjt_id = project_id
 
     def __call__(self, claims: Dict[str, str], auto_error: bool = True) -> bool:

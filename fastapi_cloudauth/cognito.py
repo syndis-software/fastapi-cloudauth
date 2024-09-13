@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 from starlette import status
 
 from .base import ScopedAuth, UserInfoAuth
-from .messages import NOT_VERIFIED
+from .messages import NOT_VERIFIED, helper
 from .verification import JWKS as BaseJWKS
 from .verification import ExtraVerifier
 
@@ -32,6 +32,7 @@ class Cognito(ScopedAuth):
         scope_key: Optional[str] = "cognito:groups",
         auto_error: bool = True,
     ):
+        helper()
         url = f"https://cognito-idp.{region}.amazonaws.com/{userPoolId}/.well-known/jwks.json"
         jwks = JWKS(url=url)
         super().__init__(

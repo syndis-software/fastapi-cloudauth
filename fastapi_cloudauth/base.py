@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from pydantic.error_wrappers import ValidationError
 from starlette import status
 
-from fastapi_cloudauth.messages import NOT_AUTHENTICATED, NOT_VALIDATED_CLAIMS
+from fastapi_cloudauth.messages import NOT_AUTHENTICATED, NOT_VALIDATED_CLAIMS, helper
 from fastapi_cloudauth.verification import (
     JWKS,
     ExtraVerifier,
@@ -68,6 +68,7 @@ class CloudAuth(ABC):
             return "hello"
         ```
         """
+        helper()
         if http_auth is None:
             if self.verifier.auto_error:
                 raise HTTPException(
